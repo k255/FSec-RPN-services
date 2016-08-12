@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby -i
 require 'nsq'
+require 'benchmark'
 
 NSQ_ADDRESS='127.0.0.1:4150'
 
@@ -19,16 +20,20 @@ counter = 0
 count = 0
 results = Array.new
 
+puts "Input:"
 ARGF.each_line do |line|
     if counter == 0
-      puts "Input:"
       counter = line.to_i
       count = counter
     else
-      request.write(line)
+      msg = ""
+      roundtripTime = Benchmark.realtime {
+        request.write(line)
 
-      msg = response.pop
-      results.push(msg.body)
+        msg = response.pop
+      }
+
+      results.push( msg.body.strip + ", " + '%.6f' % roundtripTime )
       msg.finish
 
       counter = counter - 1
@@ -36,12 +41,15 @@ ARGF.each_line do |line|
         puts ""
         puts "Output:"
         for res in results
-          puts "res: " + res
+          puts res
         end
         count = 0
         break
       end
     end
 end
+
+response.terminate()
+request.terminate()
 
 __END__
