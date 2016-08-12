@@ -6,12 +6,12 @@ NSQ_ADDRESS='127.0.0.1:4150'
 
 request = Nsq::Producer.new(
   nsqd: NSQ_ADDRESS,
-  topic: 'test_topic'
+  topic: 'user_input'
 )
 
 response = Nsq::Consumer.new(
   nsqd: NSQ_ADDRESS,
-  topic: 'test_topic',
+  topic: 'eval_results',
   channel: 'local'
 )
 
@@ -28,12 +28,12 @@ ARGF.each_line do |line|
     else
       msg = ""
       roundtripTime = Benchmark.realtime {
-        request.write(line)
+        request.write(line.strip)
 
         msg = response.pop
       }
 
-      results.push( msg.body.strip + ", " + '%.6f' % roundtripTime )
+      results.push( msg.body + ", " + '%.6f' % roundtripTime )
       msg.finish
 
       counter = counter - 1
