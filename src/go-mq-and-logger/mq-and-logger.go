@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/nsqio/nsq/nsqd"
 	"github.com/nsqio/go-nsq"
+	"github.com/nsqio/nsq/nsqadmin"
 	"os"
 	"log"
 )
@@ -14,6 +15,11 @@ func main() {
 		opts := nsqd.NewOptions()
 		nsqd := nsqd.New(opts)
 		nsqd.Main()
+
+		nsqadminOpts := nsqadmin.NewOptions()
+		nsqadminOpts.NSQDHTTPAddresses = []string{"localhost:4151"}
+		nsqadmin := nsqadmin.New(nsqadminOpts)
+		nsqadmin.Main()
 	}()
 
 	cfg := nsq.NewConfig()
