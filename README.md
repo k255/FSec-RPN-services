@@ -14,6 +14,8 @@ Go, python, ruby environment with properly set system paths/variables
 Clone the repository and run build.sh or build.bat dependent on your platform.
 Ensure that required packages were installed properly.
 
+Dependent on your plarform (linux/windows) you may need to update logfile path in mq-and-logger.go (rebuild required).
+
 ## Running
 Start services:
 startMQAndLogger[.sh | .bat] - messaging platform and logging worker
