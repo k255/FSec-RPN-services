@@ -1,1 +1,1 @@
-ruby src/ruby-cmd-iface/cmd-iface.rb
+ruby -W0 src/ruby-cmd-iface/cmd-iface.rb
