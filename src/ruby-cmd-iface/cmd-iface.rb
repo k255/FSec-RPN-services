@@ -33,7 +33,7 @@ ARGF.each_line do |line|
         msg = response.pop
       }
 
-      results.push( msg.body + ", " + '%.6f' % roundtripTime )
+      results.push( msg.body + ", " + '%.5f' % roundtripTime )
       msg.finish
 
       counter = counter - 1
