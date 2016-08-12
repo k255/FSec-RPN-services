@@ -8,6 +8,8 @@ import (
 	"log"
 )
 
+const LOGGER_PATH = "/tmp/fsec.log"
+
 func main() {
 	done := make(chan bool)
 
@@ -30,7 +32,7 @@ func main() {
 	}
 
 	c.AddHandler(nsq.HandlerFunc(func(m *nsq.Message) error {
-		f, err := os.OpenFile("c:/tmp/dat.log", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
+		f, err := os.OpenFile(LOGGER_PATH, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
     n, err := f.Write(m.Body)
 		log.Println("log file bytes written:", n)
 		if err != nil {
